@@ -10,14 +10,14 @@ public class DatabaseOperation {
         String user1 = "us1";
         String password = "1";
 
-        try{
+        try {
             DriverManager.registerDriver(new SQLServerDriver());
             Connection connection = DriverManager.getConnection(url, user1, password);
             Statement statement = connection.createStatement();
 
             System.out.print("--- Query 'select * from test.dbo.promotions' ---\n");
             ResultSet resultSet = statement.executeQuery("select * from test.dbo.promotions");
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 System.out.print(resultSet.getDate(4));
                 System.out.print("\t" + resultSet.getString(2) + "\n");
             }
@@ -25,7 +25,7 @@ public class DatabaseOperation {
             System.out.print("\n--- Query with 'where' ---\n");
             ResultSet resultSetWhere = statement.executeQuery("select * from test.dbo.promotions " +
                     "where discount = 0.25");
-            while(resultSetWhere.next()){
+            while (resultSetWhere.next()) {
                 System.out.print(resultSetWhere.getDate(4));
                 System.out.print("\t" + resultSetWhere.getString(2) + "\n");
             }
@@ -33,18 +33,18 @@ public class DatabaseOperation {
             System.out.print("\n--- Query 'select * from test.dbo.persons where surname LIKE '%o%'' ---\n");
             ResultSet resultSetWhereLike = statement.executeQuery("select * from test.dbo.persons " +
                     "where surname LIKE '%o%'");
-            while(resultSetWhereLike.next()){
+            while (resultSetWhereLike.next()) {
                 System.out.print(resultSetWhereLike.getString(2));
                 System.out.print("\t" + resultSetWhereLike.getString(3) + "\n");
             }
 
             System.out.print("""
-                    
+                                        
                     --- Query 'select TOP 2 * from test.dbo.emails where email like '%.net' or email like '%.ca'' ---
                     """);
             ResultSet resultSetWhereOrLike = statement.executeQuery("select TOP 2 * from test.dbo.emails " +
                     "where email like '%.net' or email like '%.ca'");
-            while(resultSetWhereOrLike.next()){
+            while (resultSetWhereOrLike.next()) {
                 System.out.print(resultSetWhereOrLike.getString(2) + "\n");
             }
 
@@ -58,7 +58,7 @@ public class DatabaseOperation {
                     on p.email_id = pp.email_id
                     INNER JOIN test.dbo.promotions prom
                     on pp.promotion_id = prom.promotion_id\s""");
-            while(resultSetJoin.next()){
+            while (resultSetJoin.next()) {
                 System.out.print(resultSetJoin.getString(1));
                 System.out.print("\t\t\t" + resultSetJoin.getString(2));
                 System.out.print("\t\t\t" + resultSetJoin.getString(3));
@@ -73,7 +73,7 @@ public class DatabaseOperation {
             statement.close();
             connection.close();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
